@@ -10,6 +10,21 @@ void main() async {
   runApp(ShadowSpriteGame(size).widget);
 }
 
+class ShadowSprite extends Sprite {
+  ShadowSprite(
+    String fileName, {
+    double x = 0.0,
+    double y = 0.0,
+    double width,
+    double height,
+  }): super(fileName, x: x, y: y, width: width, height: height);
+
+  @override
+  void renderRect(Canvas canvas, Rect rect, [Paint overridePaint]) {
+    super.renderRect(canvas, rect, overridePaint);
+  }
+}
+
 class ShadowSpriteGame extends Game {
 
   final _backgroundPaint = Paint()..color = const Color(0xFF38607c);
@@ -21,9 +36,9 @@ class ShadowSpriteGame extends Game {
   Sprite _ground;
 
   ShadowSpriteGame(this._screenSize) {
-    _player = Sprite("sprites.png", width: 48, height: 48);
-    _enemy = Sprite("sprites.png", x: 48, y: 32, width: 32, height: 16);
-    _ground = Sprite("sprites.png", y: 48, width: 80, height: 32);
+    _player = ShadowSprite("sprites.png", width: 48, height: 48);
+    _enemy = ShadowSprite("sprites.png", x: 48, y: 32, width: 32, height: 16);
+    _ground = ShadowSprite("sprites.png", y: 48, width: 80, height: 32);
   }
 
   @override
