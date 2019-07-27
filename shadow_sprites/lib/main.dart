@@ -11,6 +11,9 @@ void main() async {
 }
 
 class ShadowSprite extends Sprite {
+  final _shadowPaint = Paint()
+      ..colorFilter = ColorFilter.mode(Colors.black.withOpacity(0.9), BlendMode.srcATop);
+
   ShadowSprite(
     String fileName, {
     double x = 0.0,
@@ -21,6 +24,8 @@ class ShadowSprite extends Sprite {
 
   @override
   void renderRect(Canvas canvas, Rect rect, [Paint overridePaint]) {
+
+    super.renderRect(canvas, rect.translate(10, 10), _shadowPaint);
     super.renderRect(canvas, rect, overridePaint);
   }
 }
@@ -48,8 +53,8 @@ class ShadowSpriteGame extends Game {
   void render(Canvas canvas) {
     canvas.drawRect(Rect.fromLTWH(0, 0, _screenSize.width, _screenSize.height), _backgroundPaint);
 
-    _player.renderRect(canvas, Rect.fromLTWH(100, 100, 150, 150));
     _enemy.renderRect(canvas, Rect.fromLTWH(250, 200, 100, 50));
+    _player.renderRect(canvas, Rect.fromLTWH(100, 100, 150, 150));
     _ground.renderRect(canvas, Rect.fromLTWH(100, 250, 250, 100));
   }
 }
