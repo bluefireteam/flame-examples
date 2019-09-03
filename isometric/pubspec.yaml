@@ -10,3 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flame: ^0.15.1
+
+flutter:
+  assets:
+    - assets/images/tiles.png

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:flame/position.dart';
+import 'package:flame/sprite.dart';
 
 class IsoGame extends Game {
-  static const double SIZE = 50.0;
+  static const double SIZE = 100.0;
 
   final _whiteStroke = Paint()
     ..color = Color(0xffffffff)
@@ -12,6 +13,9 @@ class IsoGame extends Game {
   final _red = Paint()..color = Color(0xffff0000);
   final _blue = Paint()..color = Color(0xff0000ff);
   final _yellow = Paint()..color = Color(0xfff0ea3c);
+
+  final _lightSquare = Sprite("tiles.png", width: 19, height: 19);
+  final _darkSquare = Sprite("tiles.png", x: 19, width: 19, height: 19);
 
   final Size screenSize;
 
@@ -65,8 +69,9 @@ class IsoGame extends Game {
 
     final playerProjectedPosition =
         cartesianToIso(playerPos.clone().times(SIZE));
+
     final rect = Rect.fromLTWH(
-        playerProjectedPosition.x, playerProjectedPosition.y, SIZE, SIZE);
+        playerProjectedPosition.x, playerProjectedPosition.y - SIZE, SIZE, SIZE);
     canvas.drawOval(rect, _yellow);
 
     canvas.restore();
@@ -82,11 +87,16 @@ class IsoGame extends Game {
   void drawTile(Canvas c, Position point, int value) {
     final projectedPosition = cartesianToIso(point.times(SIZE));
 
-    final rect =
-        Rect.fromLTWH(projectedPosition.x, projectedPosition.y, SIZE, SIZE);
-    final paint = value == 1 ? _blue : _red;
+    c.save();
+    c.translate(projectedPosition.x, projectedPosition.y);
 
-    c.drawRect(rect, paint);
-    c.drawRect(rect, _whiteStroke);
+    final coord = SIZE / 2 * -1;
+    final rect =
+        Rect.fromLTWH(coord, coord, SIZE * 2, SIZE);
+
+    final sprite = value == 1 ? _lightSquare : _darkSquare;
+    sprite.renderRect(c, rect);
+
+    c.restore();
   }
 }
